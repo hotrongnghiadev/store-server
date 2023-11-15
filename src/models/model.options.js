@@ -15,7 +15,7 @@ const modelOptions = {
     },
   },
   // disable the "__v" attribute in Schema
-  versionKey: true,
+  versionKey: false,
   timestamps: true,
 };
 export default modelOptions;

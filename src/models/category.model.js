@@ -8,10 +8,12 @@ const schema = mongoose.Schema(
       required: true,
       unique: true,
     },
-    categories: [
+    brands: [
       {
-        type: mongoose.Types.ObjectId,
-        ref: 'Category',
+        brand_id: {
+          type: mongoose.Types.ObjectId,
+          ref: 'Brand',
+        },
       },
     ],
     desc: {
@@ -20,3 +22,5 @@ const schema = mongoose.Schema(
   },
   modelOptions
 );
+const categoryModel = mongoose.Schema('Category');
+export default categoryModel;

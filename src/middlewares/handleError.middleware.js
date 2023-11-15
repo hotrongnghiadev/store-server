@@ -1,4 +1,4 @@
-const HandleError = (err, req, res, next) => {
+const handleError = (err, req, res, next) => {
   // format error info
   const error = {
     status: 'ERROR',
@@ -17,4 +17,4 @@ const HandleError = (err, req, res, next) => {
 
   return res.status(httpCode).json(error);
 };
-export default HandleError;
+export default handleError;

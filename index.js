@@ -1,18 +1,23 @@
+// must at top
+import 'express-async-errors';
+import 'dotenv/config';
+
 import mongoose from 'mongoose';
 import express from 'express';
 import http from 'http';
 import router from './src/routes/index.js';
-import 'dotenv/config';
-import 'express-async-errors';
-import HandleError from './src/middlewares/handleError.middleware.js';
+import handleError from './src/middlewares/handleError.middleware.js';
+
 const app = express();
 
 // middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use('/api/v1', router);
 
-app.use(HandleError);
+app.use(handleError);
 
 // create server
 const server = http.createServer(app);

@@ -9,10 +9,6 @@ const schema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    displayName: {
-      type: String,
-      required: true,
-    },
     password: {
       type: String,
       required: true,
@@ -51,7 +47,7 @@ schema.methods.setPassword = function (password) {
   // convert binary to hex string
   this.salt = crypto.randomBytes(16).toString('hex');
   // hashing password
-  this.password = crypto.crypto
+  this.password = crypto
     .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
     .toString('hex');
 };
@@ -64,4 +60,5 @@ schema.methods.validPassword = function (password) {
   return this.password === decrypt;
 };
 
-export default userModel = mongoose.model('User', schema);
+const userModel = mongoose.model('User', schema);
+export default userModel;

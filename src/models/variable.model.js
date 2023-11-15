@@ -52,4 +52,5 @@ const schema = mongoose.Schema(
   },
   modelOptions
 );
-export default mongoose.model('Variable', schema);
+const variableModel = mongoose.model('Variable', schema);
+export default variableModel;

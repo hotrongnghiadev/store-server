@@ -75,4 +75,5 @@ const schema = new mongoose.Schema(
   modelOptions
 );
 
-export default userSchema = mongoose.model('Product', schema);
+const productModel = mongoose.model('Product', schema);
+export default productModel;
