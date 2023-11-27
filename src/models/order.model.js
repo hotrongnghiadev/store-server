@@ -3,7 +3,7 @@ import modelOptions from './model.options.js';
 
 const schema = new mongoose.Schema(
   {
-    user_id: {
+    userId: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
     },

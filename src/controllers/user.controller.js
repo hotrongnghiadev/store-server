@@ -29,12 +29,10 @@ export const signup = async (req, res) => {
 
 export const signin = async (req, res) => {
   const { userName, password } = req.body;
-
   // check is the info login
   const user = await userModel
     .findOne({ userName })
-    .select('userName password salt _id');
-  console.log(user);
+    .select('userName role  password salt _id');
   if (!user) throw new HandleError('userName is wrong', 401);
 
   if (!user.validPassword(password))
@@ -42,9 +40,9 @@ export const signin = async (req, res) => {
 
   // handle after login
   const accessToken = jsonwebtoken.sign(
-    { id: user.id },
+    { id: user._id },
     process.env.TOKEN_SECRET,
-    { expiresIn: '24h' }
+    { expiresIn: '30d' }
   );
 
   user.password = undefined;

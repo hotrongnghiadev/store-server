@@ -3,14 +3,9 @@ import modelOptions from './model.options.js';
 
 const schema = mongoose.Schema(
   {
-    product_id: {
+    productId: {
       type: mongoose.Types.ObjectId,
       ref: 'Product',
-    },
-    name: {
-      type: String,
-      required: true,
-      unique: true,
     },
     price: {
       type: Number,
@@ -46,9 +41,6 @@ const schema = mongoose.Schema(
         },
       },
     ],
-    desc: {
-      type: Object,
-    },
   },
   modelOptions
 );

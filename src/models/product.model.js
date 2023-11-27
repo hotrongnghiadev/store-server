@@ -3,11 +3,11 @@ import modelOptions from './model.options.js';
 
 const schema = new mongoose.Schema(
   {
-    brand_id: {
+    brandId: {
       type: mongoose.Types.ObjectId,
       ref: 'Brand',
     },
-    category_id: {
+    categoryId: {
       type: mongoose.Types.ObjectId,
       ref: 'Category',
     },
@@ -21,19 +21,6 @@ const schema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
-    thumb: [
-      {
-        originalname: {
-          type: String,
-        },
-        path: {
-          type: String,
-        },
-        filename: {
-          type: String,
-        },
-      },
-    ],
     desc: {
       type: Object,
     },
@@ -48,20 +35,20 @@ const schema = new mongoose.Schema(
         },
       },
     ],
-    star_avg: {
+    starAvg: {
       type: Number,
       default: 0,
     },
     comments: [
       {
-        user_id: {
+        userId: {
           type: mongoose.Types.ObjectId,
           ref: 'User',
         },
         content: {
           type: String,
         },
-        parent_id: {
+        parentId: {
           type: mongoose.Types.ObjectId,
           default: null,
         },
@@ -70,6 +57,7 @@ const schema = new mongoose.Schema(
     status: {
       type: String,
       enum: ['on', 'out', 'off'],
+      default: 'off',
     },
   },
   modelOptions

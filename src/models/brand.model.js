@@ -10,14 +10,14 @@ const schema = mongoose.Schema(
     },
     categories: [
       {
-        category_id: {
+        categoryId: {
           type: mongoose.Types.ObjectId,
           ref: 'Category',
         },
       },
     ],
     desc: {
-      type: Object,
+      type: String,
     },
   },
   modelOptions

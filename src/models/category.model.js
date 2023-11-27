@@ -8,9 +8,13 @@ const schema = mongoose.Schema(
       required: true,
       unique: true,
     },
+    parentId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Category',
+    },
     brands: [
       {
-        brand_id: {
+        brandId: {
           type: mongoose.Types.ObjectId,
           ref: 'Brand',
         },
@@ -22,5 +26,5 @@ const schema = mongoose.Schema(
   },
   modelOptions
 );
-const categoryModel = mongoose.Schema('Category');
+const categoryModel = mongoose.model('Category', schema);
 export default categoryModel;

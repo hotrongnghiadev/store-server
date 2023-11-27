@@ -5,12 +5,22 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import express from 'express';
 import http from 'http';
+import cors from 'cors';
+
 import router from './src/routes/index.js';
 import handleError from './src/middlewares/handleError.middleware.js';
 
 const app = express();
 
 // middleware
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    methods: ['POST', 'PUT', 'PATCH', 'DELETE', 'GET'],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
