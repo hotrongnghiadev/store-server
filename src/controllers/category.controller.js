@@ -1,3 +1,4 @@
+import slugify from 'slugify';
 import categoryModel from '../models/category.model.js';
 import HandleError from '../utils/HandleThrowError.utils.js';
 
@@ -7,7 +8,8 @@ export const create = async (req, res) => {
   const checkExist = await categoryModel.findOne({ name });
   if (checkExist) throw new HandleError(`${name} is existed`, 400);
 
-  const category = await categoryModel.create(req.body);
+  const slug = slugify(name, { lower: true });
+  const category = await categoryModel.create({ slug, ...req.body });
   return res.status(201).json(category);
 };
 

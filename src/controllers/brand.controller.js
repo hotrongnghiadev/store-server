@@ -1,3 +1,4 @@
+import slugify from 'slugify';
 import brandModel from '../models/brand.model.js';
 
 import HandleError from '../utils/HandleThrowError.utils.js';
@@ -8,7 +9,8 @@ export const create = async (req, res) => {
   const checkExist = await brandModel.findOne({ name });
   if (checkExist) throw new HandleError(`${name} is existed`, 400);
 
-  const brand = await brandModel.create(req.body);
+  const slug = slugify(name, { lower: true });
+  const brand = await brandModel.create({ slug, ...req.body });
   return res.status(201).json(brand);
 };
 

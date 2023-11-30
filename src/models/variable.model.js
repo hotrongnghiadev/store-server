@@ -15,6 +15,10 @@ const schema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    color: {
+      type: String,
+      required: true,
+    },
     thumb: [
       {
         originalname: {
@@ -39,6 +43,11 @@ const schema = mongoose.Schema(
         filename: {
           type: String,
         },
+      },
+    ],
+    detail: [
+      {
+        type: Object,
       },
     ],
   },

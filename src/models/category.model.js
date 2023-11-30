@@ -8,6 +8,11 @@ const schema = mongoose.Schema(
       required: true,
       unique: true,
     },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     parentId: {
       type: mongoose.Types.ObjectId,
       ref: 'Category',

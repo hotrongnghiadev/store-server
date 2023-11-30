@@ -21,9 +21,11 @@ const schema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
-    desc: {
-      type: Object,
-    },
+    general: [
+      {
+        type: Object,
+      },
+    ],
     ratings: [
       {
         user_id: {
