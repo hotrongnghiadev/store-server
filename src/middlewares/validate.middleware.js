@@ -17,7 +17,7 @@ const validate = (validator) => {
           });
           console.log(filenames);
           cloudinary.api.delete_resources(filenames, function (error, result) {
-            console.log(error);
+            if (error) console.log(error);
           });
         }
         return res.status(422).json({

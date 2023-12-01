@@ -27,7 +27,6 @@ export const getAll = async (req, res) => {
 };
 
 export const delMany = async (req, res) => {
-  console.log(req.query);
   const brands = await brandModel.deleteMany({ _id: req.query.ids });
   return res.status(200).json(brands);
 };

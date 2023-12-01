@@ -26,6 +26,53 @@ const schema = new mongoose.Schema(
         type: Object,
       },
     ],
+    price: {
+      type: Number,
+      required: true,
+    },
+    inventory: {
+      type: Number,
+      required: true,
+    },
+    color: {
+      type: String,
+      required: true,
+    },
+    thumb: [
+      {
+        originalname: {
+          type: String,
+        },
+        path: {
+          type: String,
+        },
+        filename: {
+          type: String,
+        },
+      },
+    ],
+    images: [
+      {
+        originalname: {
+          type: String,
+        },
+        path: {
+          type: String,
+        },
+        filename: {
+          type: String,
+        },
+      },
+    ],
+    sold: {
+      type: Number,
+      default: 0,
+    },
+    detail: [
+      {
+        type: Object,
+      },
+    ],
     ratings: [
       {
         user_id: {
@@ -57,9 +104,8 @@ const schema = new mongoose.Schema(
       },
     ],
     status: {
-      type: String,
-      enum: ['on', 'out', 'off'],
-      default: 'off',
+      type: Boolean,
+      default: true,
     },
   },
   modelOptions
