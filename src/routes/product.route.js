@@ -38,5 +38,6 @@ router.delete('/delMany', [mdws.handleToken], ctls.delMany);
 
 router.get('/get-all', [mdws.handleToken], ctls.getAll);
 router.get('/get-one/:id', [mdws.handleToken], ctls.getOne);
+router.get('/filter', ctls.filter);
 
 export default router;

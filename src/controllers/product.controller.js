@@ -133,3 +133,51 @@ export const getOne = async (req, res) => {
   const products = await productModel.findById(id);
   return res.status(200).json(products);
 };
+
+export const filter = async (req, res) => {
+  const query = req.query;
+  // 1.FILTER
+  // since query is an object, mySQL uses operator '...' to refer to the variable myFilter
+  let myFilter = { ...query };
+  // strip some values ​​from myFilter
+  const removalList = ['page', 'limit', 'sort', 'select'];
+  for (const el of removalList) delete myFilter[el];
+  // convert myFilter to string to add $ sign before gt, gte, lt, lte on all object values
+  myFilter = JSON.stringify(myFilter).replace(
+    //match any word in brackets, with different letters in front and back, eg: xgte, gtex, xgtex
+    /\b(gte|gt|lte|lt)\b/g,
+    (match) => `$${match}`
+  );
+  // convert myFilter to JSON
+  myFilter = JSON.parse(myFilter);
+  if (query.name) {
+    myFilter.name = { $regex: query.name, $options: 'i' };
+  }
+  if (!myFilter) myFilter = null;
+  // 2. SORT
+  const mySorter = query.sort?.split(',').join(' ') || '-createdAt';
+
+  // 3. SELECT
+  const mySelector = query.select?.split(',').join(' ');
+
+  // 4. PAGINATION
+  const page = query.page || 1;
+  const limit = query.limit || 4;
+  const skip = (page - 1) * limit;
+
+  await productModel
+    .find(myFilter)
+    .populate('categoryId')
+    .sort(mySorter)
+    .select(mySelector)
+    .skip(skip)
+    .limit(limit)
+    .then(async (resolve) => {
+      const count = await productModel.find(myFilter).countDocuments();
+      return res.status(200).json({
+        status: 'SUCCESS',
+        count: count,
+        data: resolve,
+      });
+    });
+};
