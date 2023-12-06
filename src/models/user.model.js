@@ -17,17 +17,13 @@ const schema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: 'user',
+      default: 'member',
     },
     cart: [
       {
         product: {
           type: mongoose.Types.ObjectId,
           ref: 'Product',
-        },
-        variable: {
-          type: mongoose.Types.ObjectId,
-          ref: 'Variable',
         },
         quantity: {
           type: Number,

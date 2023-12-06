@@ -17,4 +17,6 @@ router.post(
 
 router.get('/current', [mdws.handleToken], ctls.getCurrent);
 
+router.patch('/updateCart', [mdws.handleToken], ctls.updateCart);
+
 export default router;

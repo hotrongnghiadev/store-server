@@ -32,7 +32,7 @@ export const signin = async (req, res) => {
   // check is the info login
   const user = await userModel
     .findOne({ userName })
-    .select('userName role  password salt _id');
+    .select('userName role cart password salt _id');
   if (!user) throw new HandleError('userName is wrong', 401);
 
   if (!user.validPassword(password))
@@ -77,8 +77,28 @@ export const updatePassword = async (req, res) => {
 export const getCurrent = async (req, res) => {
   const { id } = req.user;
 
-  const user = await userModel.findById(id);
+  const user = await userModel.findById(id).populate('cart.product');
   if (!user) throw new HandleError('user is not found', 400);
 
   return res.status(200).json(user);
+};
+
+export const updateCart = async (req, res) => {
+  const { id } = req.user;
+  const { productId, cart } = req.body;
+  if (!productId && !cart) throw new HandleError('missing inputs');
+  const user = await userModel.findById(id);
+
+  if (productId) {
+    user.cart.push({ product: productId, quantity: 1 });
+    await user.save();
+    return res.status(200).json(user);
+  }
+
+  if (cart) {
+    console.log(cart);
+    user.cart = cart;
+    await user.save();
+    return res.status(200).json(user);
+  }
 };

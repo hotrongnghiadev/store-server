@@ -75,7 +75,7 @@ const schema = new mongoose.Schema(
     ],
     ratings: [
       {
-        user_id: {
+        userId: {
           type: mongoose.Types.ObjectId,
           ref: 'User',
         },

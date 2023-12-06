@@ -1,5 +1,4 @@
 import { v2 as cloudinary } from 'cloudinary';
-import mongoose from 'mongoose';
 import slugify from 'slugify';
 import productModel from '../models/product.model.js';
 import brandModel from '../models/brand.model.js';
@@ -82,7 +81,6 @@ export const update = async (req, res) => {
   };
   updateData.general = JSON.parse(req.body.general);
   updateData.detail = JSON.parse(req.body.detail);
-  console.log(updateData);
 
   // update files
   const updateFiles = {};
@@ -129,9 +127,13 @@ export const getAll = async (req, res) => {
 };
 
 export const getOne = async (req, res) => {
-  const id = req.params.id;
-  const products = await productModel.findById(id);
-  return res.status(200).json(products);
+  const slug = req.params.slug;
+  const product = await productModel
+    .findOne({ slug })
+    .populate('categoryId')
+    .populate('brandId')
+    .populate('comments.userId');
+  return res.status(200).json(product);
 };
 
 export const filter = async (req, res) => {
@@ -155,7 +157,7 @@ export const filter = async (req, res) => {
   }
   if (!myFilter) myFilter = null;
   // 2. SORT
-  const mySorter = query.sort?.split(',').join(' ') || '-createdAt';
+  const mySorter = query.sort?.split(',').join(' ') || { name: 1 };
 
   // 3. SELECT
   const mySelector = query.select?.split(',').join(' ');
@@ -173,11 +175,82 @@ export const filter = async (req, res) => {
     .skip(skip)
     .limit(limit)
     .then(async (resolve) => {
-      const count = await productModel.find(myFilter).countDocuments();
+      const count = await productModel
+        .find(myFilter)
+        .populate('categories')
+        .countDocuments();
       return res.status(200).json({
         status: 'SUCCESS',
         count: count,
         data: resolve,
       });
     });
+};
+
+export const rate = async (req, res) => {
+  const params = req.params;
+  const body = req.body;
+  const user = req.user;
+  console.log(body);
+
+  const product = await productModel.findById(params.id);
+  // check if users have rated this product before
+  const isRated = product.ratings.find(
+    (el) => el.userId.toString() === user.id
+  );
+  // handle when not rate before
+  let resDB = {};
+  if (!isRated) {
+    // update avg
+    const updateStarAvg =
+      product.starAvg +
+      (body.star - product.starAvg) / (product.ratings.length + 1);
+    // update ratings
+    const contentUpdate = {
+      starAvg: updateStarAvg,
+      $push: {
+        ratings: {
+          userId: user.id,
+          star: body.star,
+        },
+      },
+    };
+    if (body.comment)
+      contentUpdate.$push.comments = {
+        userId: user.id,
+        content: body.comment,
+      };
+    console.log(contentUpdate);
+    resDB = await productModel.findByIdAndUpdate(params.id, contentUpdate, {
+      new: true,
+    });
+  }
+  // handle if rated
+  else {
+    const starAvg = product.starAvg || 0;
+    const updateStarAvg =
+      starAvg + (body.star - isRated.star) / product.ratings.length;
+
+    //
+    const contentUpdate = {
+      // $ points to the element found in the ratings array
+      $set: { 'ratings.$.star': body.star, starAvg: updateStarAvg },
+    };
+    if (body.comment)
+      contentUpdate.$push = {
+        comments: {
+          userId: user.id,
+          content: body.comment,
+        },
+      };
+    console.log(contentUpdate);
+    resDB = await productModel.updateOne({ ratings: isRated }, contentUpdate, {
+      new: true,
+    });
+  }
+
+  return res.status(200).json({
+    status: 'SUCCESS',
+    data: resDB,
+  });
 };
