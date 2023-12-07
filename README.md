@@ -10,7 +10,7 @@ A project created for the purpose of learning knowledge around creating Restfull
 
 - [Link to api backend](https://trongnghiadev-shopo.onrender.com/api/v1)
 - [Link to member frontend](https://store-client-lovat.vercel.app/)
-- [Link to admin frontend](https://store-client-lovat.vercel.app/admin)
+- [Link to admin frontend](https://store-client-lovat.vercel.app/admin/signin)
 
 
 ## Features
