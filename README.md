@@ -8,8 +8,9 @@ A project created for the purpose of learning knowledge around creating Restfull
 
 ## Demo
 
-- [Link to server](https://trongnghiadev-shopo.onrender.com/api/v1)
-- [Link to client](https://store-client-lovat.vercel.app/)
+- [Link to api backend](https://trongnghiadev-shopo.onrender.com/api/v1)
+- [Link to member frontend](https://store-client-lovat.vercel.app/)
+- [Link to admin frontend](https://store-client-lovat.vercel.app/admin)
 
 
 ## Features
@@ -20,5 +21,4 @@ A project created for the purpose of learning knowledge around creating Restfull
 - Search, filter and pagination
 - Upload files to the cloud
 - And many other features
-
 
