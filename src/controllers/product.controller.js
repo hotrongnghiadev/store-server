@@ -220,7 +220,6 @@ export const rate = async (req, res) => {
         userId: user.id,
         content: body.comment,
       };
-    console.log(contentUpdate);
     resDB = await productModel.findByIdAndUpdate(params.id, contentUpdate, {
       new: true,
     });

@@ -18,7 +18,7 @@ export const signup = async (req, res) => {
   const accessToken = jsonwebtoken.sign(
     { data: user._id },
     process.env.TOKEN_SECRET,
-    { expiresIn: '24h' }
+    { expiresIn: '30d' }
   );
 
   res.status(201).json({
