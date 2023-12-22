@@ -136,6 +136,17 @@ export const getOne = async (req, res) => {
   return res.status(200).json(product);
 };
 
+export const getOneById = async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const product = await productModel
+    .findById(id)
+    .populate('categoryId')
+    .populate('brandId')
+    .populate('comments.userId');
+  return res.status(200).json(product);
+};
+
 export const filter = async (req, res) => {
   const query = req.query;
   // 1.FILTER
@@ -157,8 +168,12 @@ export const filter = async (req, res) => {
   }
   if (!myFilter) myFilter = null;
   // 2. SORT
-  const mySorter = query.sort?.split(',').join(' ') || { name: 1 };
-
+  const mySorter = {};
+  if (query.sort) {
+    if (query.sort.charAt(0) === '-') {
+      mySorter[query.sort.slice(1)] = -1;
+    } else mySorter[query.sort] = 1;
+  }
   // 3. SELECT
   const mySelector = query.select?.split(',').join(' ');
 
@@ -166,7 +181,6 @@ export const filter = async (req, res) => {
   const page = query.page || 1;
   const limit = query.limit || 4;
   const skip = (page - 1) * limit;
-
   await productModel
     .find(myFilter)
     .populate('categoryId')

@@ -38,6 +38,7 @@ router.delete('/delMany', [mdws.handleToken], ctls.delMany);
 
 router.get('/get-all', ctls.getAll);
 router.get('/get-one/:slug', ctls.getOne);
+router.get('/get-one-by-id/:id', ctls.getOneById);
 router.get('/filter', ctls.filter);
 router.patch('/rate/:id', [mdws.handleToken], ctls.rate);
 

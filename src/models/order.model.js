@@ -9,9 +9,9 @@ const schema = new mongoose.Schema(
     },
     products: [
       {
-        variable_id: {
+        productId: {
           type: mongoose.Types.ObjectId,
-          ref: 'Variable',
+          ref: 'Product',
         },
         quantity: {
           type: Number,
@@ -19,17 +19,13 @@ const schema = new mongoose.Schema(
         },
       },
     ],
-    address: {
-      type: String,
-      required: true,
-    },
-    phone: {
-      type: String,
-      required: true,
+    total: {
+      type: Number,
     },
     status: {
       type: String,
       enum: ['ordered', 'pending', 'success'],
+      default: 'ordered',
     },
   },
   modelOptions
