@@ -181,6 +181,7 @@ export const filter = async (req, res) => {
   const page = query.page || 1;
   const limit = query.limit || 4;
   const skip = (page - 1) * limit;
+
   await productModel
     .find(myFilter)
     .populate('categoryId')
